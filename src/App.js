@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
+import {connect} from 'react-redux';
 import './App.css';
+import SearchBar from './components/SearchBar/SearchBar';
+import Table from './components/Table/Table';
+import {filterTable, sortTable, getData} from './redux/table_reducer';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(props) {
+    return (
+        <div className="appWrapper">
+            <SearchBar filterTable={props.filterTable}/>
+            <Table data={props.data}
+                   sortMethod={props.sortMethod}
+                   reverseToggler={props.reverseToggler}
+                   searchQuery={props.searchQuery}
+                   sortTable={props.sortTable}
+                   toggleModal={props.toggleModal}
+                   getData={props.getData}/>
+        </div>
+    );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        data: state.table.data,
+        sortMethod: state.table.sortMethod,
+        reverseToggler: state.table.reverseToggler,
+        searchQuery: state.table.searchQuery,
+    }
+}
+
+let AppContainer = connect(mapStateToProps, {filterTable, sortTable, getData})(App);
+export default AppContainer;
