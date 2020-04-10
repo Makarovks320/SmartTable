@@ -2,7 +2,7 @@ import React from 'react';
 import s from './TableHead.module.css';
 
 const TableHead = (props) => {
-    const clickHandler = (e) => props.sortTable(e.target.textContent);
+    const clickHandler = (e) => {if (e.target.tagName === 'SPAN') {props.sortTable(e.target.textContent)}};
     return (
         <tr className={s.tableHead} onClick={clickHandler}>
             <th><span className={s.name}>Tool name</span></th>
